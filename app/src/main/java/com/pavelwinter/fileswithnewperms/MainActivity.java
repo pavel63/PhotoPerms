@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
@@ -127,7 +128,21 @@ public class MainActivity extends AppCompatActivity {
         //этим кодом можем взять наше фото для деления с кем-то
         public void onClickGet(View v){
 
-            Uri uri = Uri.fromFile(filePath);
+            Uri uri;
+
+
+            if(android.os.Build.VERSION.SDK_INT >=24){
+
+                uri= FileProvider.getUriForFile(MainActivity.this,BuildConfig.APPLICATION_ID+".provider",filePath);
+
+            }else {
+
+                uri = Uri.fromFile(filePath);
+            }
+
+
+
+
             Intent intent = new Intent(android.content.Intent.ACTION_SEND);
             intent.setType("image*/");
             intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "");
